@@ -1,0 +1,32 @@
+{
+  "name": "NuxeoBrowserAction",
+  "version": "0.0.1",
+  "description": "NuxeoBrowserAction",
+  "main": "Gruntfile.js",
+  "dependencies": {
+    "grunt": "~0.4.2",
+    "grunt-chrome-compile": "~0.2.2",
+    "grunt-contrib-clean": "~0.4.1",
+    "grunt-contrib-compress": "~0.5.3",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-copy": "~0.4.1",
+    "grunt-contrib-nodeunit": "~0.1.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/tiry/NuxeoBrowserAction.git"
+  },
+  "author": "Tiry",
+  "license": "LGPL",
+  "bugs": {
+    "url": "https://github.com/tiry/NuxeoBrowserAction/issues"
+  },
+  "keywords": [
+    "Chrome",
+    "Nuxeo"
+  ]
+}
