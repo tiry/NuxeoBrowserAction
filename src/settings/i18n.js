@@ -49,6 +49,8 @@ this.i18n = {
     },
     "advancedConfig": {
         "en": "Advanced configuration"
+    },
+    "nxql": {
+        "en": "NXQL Query to fetch the containers"
     }
-
 };

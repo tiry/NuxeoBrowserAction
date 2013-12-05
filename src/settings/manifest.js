@@ -58,7 +58,7 @@ this.manifest = {
             "password"
         ],
         [
-            "docType"
+            "docType", "nxql"
         ]
     ]
 };

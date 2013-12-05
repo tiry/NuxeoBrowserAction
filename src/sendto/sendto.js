@@ -8,7 +8,8 @@ function fetchData() {
              return;
            }
            var comment = jQuery("#comment").val();
-           sendToNuxeo(targetContainer,comment); 
+           var title = jQuery("#title").val();
+           sendToNuxeo(targetContainer,comment, title); 
          });
 
         // fetch title
@@ -53,10 +54,10 @@ function displayPosssibleTargets(docs) {
    }
 }
 
-function sendToNuxeo(selectedTarget, comment) {
+function sendToNuxeo(selectedTarget, comment, title) {
 	chrome.runtime.getBackgroundPage(
 		function(bgWindow) {
-			bgWindow.sendLink(selectedTarget,comment);
+			bgWindow.sendLink(selectedTarget,comment, title);
 			window.close(); 
 		    });  
 }

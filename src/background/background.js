@@ -27,14 +27,20 @@ function doSendLink(uid,comment, targetUrl,  contextUrl, title) {
     comment = "link from " + contextUrl;
   }
 
+  // doc type mapping
+  var prop = "dc:title=" + title + "\n";
+  prop += "note:mime_type=text/html\n";
+  prop += "note:note=<A href='"+targetUrl+"'>"+ targetUrl + "</A>\n";
+  prop += "dc:description=" + comment + "\n"
+
   var nxConfig =  getAutomationSettings();
   nuxeo.op("Document.Create",nxConfig).params({
     type: getSettings("docType"),
-    properties: "dc:title=link\nnote:mime_type=text/html\nnote:note=<A href='"+targetUrl+"'>"+ targetUrl + "</A>\ndc:description=" + comment
+    properties: prop
   })
   .input("doc:" + uid)
   .fail(function(){alert("failed!")})
-  .done(alert("ok"))
+//  .done(alert("created ok"))
   .execute();
 }
 
