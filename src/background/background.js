@@ -24,18 +24,26 @@ chrome.contextMenus.create({"title": "Send to Nuxeo", "contexts":['link'],
 
 function doSendLink(uid,comment, targetUrl,  contextUrl, title) {
   if (!comment && contextUrl) {
-    comment = "link from " + contextUrl;
+    comment = "link taken from " + contextUrl;
   }
 
   // doc type mapping
   var prop = "dc:title=" + title + "\n";
-  prop += "note:mime_type=text/html\n";
-  prop += "note:note=<A href='"+targetUrl+"'>"+ targetUrl + "</A>\n";
+
+  var docType = getSettings("docType");
+
+  if (docType=="Note") {
+    prop += "note:mime_type=text/html\n";
+    prop += "note:note=<A href='"+targetUrl+"'>"+ targetUrl + "</A>\n";
+  } else if (docType=="link") {
+    prop += "link:url=" + targetUrl + "\n";
+  }
+  
   prop += "dc:description=" + comment + "\n"
 
   var nxConfig =  getAutomationSettings();
   nuxeo.op("Document.Create",nxConfig).params({
-    type: getSettings("docType"),
+    type: docType,
     properties: prop
   })
   .input("doc:" + uid)

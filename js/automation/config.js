@@ -23,9 +23,9 @@ function initConfig() {
 
    var default_config = {"username":"Administrator",
                          "password":"Administrator",
-                         "serverUrl" : "http://demo.nuxeo.com/nuxeo/",
+                         "serverUrl" : "http://axapoc.cloud.nuxeo.com/nuxeo/",
                          "nxql" : "select * from SocialWorkspace",
-                         "docType":"Note"};
+                         "docType":"link"};
 
    for (var key in default_config) {
       var val = getSettings(key);
