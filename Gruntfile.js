@@ -12,7 +12,7 @@ module.exports = function(grunt) {
 //        certDir: 'cert',
         buildDir: 'build',
         resources: [
-            "ext/**"
+            "js/**","css/**","icons/**","_locales/**","src/**"
         ]
     }
   },
