@@ -5,16 +5,12 @@ function onContextMenuClick(info,tab) {
 }
 
 function displaySelectTargetDialog(tab,targetUrl, contextUrl, title) {
-  // chrome.pageAction.show(tab.id);
   link_title=title;
   chrome.windows.create(
-      {url: "src/sendto/sendto.html", type: "popup", top : 100, left : 200, width: 650, height: 430}
+      {url: "src/sendto/sendto.html#sublink", type: "popup", top : 100, left : 200, width: 650, height: 430}
        ,function(window) {
           // change implicit callback
           sendLink = function(uid, comment, title) {doSendLink(uid,comment,targetUrl,  contextUrl, title)};
-	  /*chrome.runtime.sendMessage({targetUrl: targetUrl, contextUrl: contextUrl}, function(response) {
-	    console.log(response.farewell);
-	  });*/
        });
 }
 

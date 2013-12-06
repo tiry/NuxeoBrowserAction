@@ -18,7 +18,7 @@
   "browser_action": {
     "default_icon": "icons/nuxeo_icon_launcher_19.png",
     "default_title": "Nuxeo Browser Extension",
-    "default_popup": "src/action/browser_action.html"
+    "default_popup": "src/sendto/sendto.html"
   },
   "permissions": [
     "contextMenus",

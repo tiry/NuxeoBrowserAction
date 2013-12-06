@@ -1,31 +1,49 @@
 
+var targetUrl;
+var targetContainer;
+
+function isSubLinkMode() {
+  var curl = document.location.href;
+  return curl.indexOf("#sublink")>0;
+}
+
 function fetchData() {
+  // bind click
+  jQuery("#send").click(function(){
+     if (!targetContainer) {
+       alert("Select target container");
+       return;
+     }
+     var comment = jQuery("#comment").val();
+     var title = jQuery("#title").val();
+     sendToNuxeo(targetContainer,comment, title); 
+   });
 
-        // bind click
-        jQuery("#send").click(function(){
-           if (!targetContainer) {
-             alert("Select target container");
-             return;
-           }
-           var comment = jQuery("#comment").val();
-           var title = jQuery("#title").val();
-           sendToNuxeo(targetContainer,comment, title); 
-         });
+  var nxConfig =  getAutomationSettings();
+  nuxeo.op("Document.PageProvider",nxConfig).params({
+    query: getSettings("nxql"),
+    pageSize: 50,
+    page: 0
+  })
+  .fail(function(){alert("failed!")}).done(displayPosssibleTargets)
+  .execute();
 
-        // fetch title
-        chrome.runtime.getBackgroundPage(
-          function(bgWindow) {
-            jQuery("#title").val(bgWindow.getLinkTitle());            
-        });  
+  if (isSubLinkMode()) {
+    targetUrl=null;
+    targetTitle=null;
+    // fetch title from background page where the link was clicked 
+    chrome.runtime.getBackgroundPage(
+      function(bgWindow) {
+        jQuery("#title").val(bgWindow.getLinkTitle());            
+    });            
+  } else {
+    // get current page           
+    chrome.tabs.query({"active":true},function (tab) {
+      targetUrl=tab[0].url;
+      jQuery("#title").val(tab[0].title);   
+    })
 
-        var nxConfig =  getAutomationSettings();
-        nuxeo.op("Document.PageProvider",nxConfig).params({
-          query: getSettings("nxql"),
-          pageSize: 50,
-          page: 0
-        })
-        .fail(function(){alert("failed!")}).done(displayPosssibleTargets)
-        .execute();
+  }
 }
 
 function buildClickCallBack(uid) {
@@ -57,11 +75,17 @@ function displayPosssibleTargets(docs) {
 function sendToNuxeo(selectedTarget, comment, title) {
 	chrome.runtime.getBackgroundPage(
 		function(bgWindow) {
-			bgWindow.sendLink(selectedTarget,comment, title);
-			window.close(); 
-		    });  
+      if (targetUrl==null) {
+         bgWindow.sendLink(selectedTarget,comment, title);
+         window.close(); 
+      } else {
+			   bgWindow.doSendLink(selectedTarget,comment, targetUrl, null, title);
+         targetUrl=null;
+         // close the popup !
+         chrome.tabs.update({ active: true });         
+      }    	
+	});  
 }
 
-var targetContainer;
 document.addEventListener('DOMContentLoaded', fetchData);
 
